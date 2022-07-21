@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import ProtectedRoute from './components/ProtectedRoute';
+import Home from './screens/Home';
+import Login from './screens/Login';
+import Register from './screens/Register';
+import Profil from './screens/Profil';
+import Movie from './screens/Movie';
+import NotFound from './screens/NotFound';
+import Search from './screens/Search';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route index path='/' element={<Home />} />
+
+      <Route path='/login' element={
+        <ProtectedRoute isLogin={false}>
+          <Login />
+        </ProtectedRoute>
+      } />
+
+      <Route path='/register' element={
+        <ProtectedRoute isLogin={false}>
+          <Register />
+        </ProtectedRoute>
+      } />
+
+      <Route path='/profil' element={
+        <ProtectedRoute isLogin={true}>
+          <Profil />
+        </ProtectedRoute>
+      } />
+
+      <Route path='/search/:title' element={<Search />} />
+
+      <Route path='/movie/:id' element={
+        <ProtectedRoute isLogin={true}>
+          <Movie />
+        </ProtectedRoute>
+      } />
+
+      <Route path='*' element={<NotFound />} />
+    </Routes>
   );
 }
 
